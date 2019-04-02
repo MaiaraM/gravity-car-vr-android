@@ -5,10 +5,106 @@
     android:layout_height="match_parent"
     tools:context=".FragLeft">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+    <!--                  Grafico Left Brake           -->
+    <TextView style="@style/h1"
+        android:text="Left Brake" />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        style="@style/grafico" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    style="@style/texto"
+                    android:hint="Minimun"
+                    android:id="@+id/lbMin"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+
+                <android.support.design.widget.TextInputEditText
+                    style="@style/texto"
+                    android:hint="Average"
+                    android:id="@+id/lbAv"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    style="@style/texto"
+                    android:hint="Maximum"
+                    android:id="@+id/lbMax"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+
+                <android.support.design.widget.TextInputEditText
+                    style="@style/texto"
+                    android:hint="Current"
+                    android:id="@+id/lbCur"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+        <android.support.design.widget.TextInputEditText
+            style="@style/texto"
+            android:hint="Moving Average"
+            android:id="@+id/lbMA"
+            />
+    </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
 </FrameLayout>

@@ -1,108 +1,116 @@
 package br.com.galaxyware.androidcar;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragLeft.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragLeft#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
 public class FragLeft extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "FragLeft";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @BindView(R.id.graph) GraphView graphLB;
+    @BindView(R.id.lbMin) TextInputEditText lbMin;
+    @BindView(R.id.lbMax) TextInputEditText lbMax;
+    @BindView(R.id.lbAv) TextInputEditText lbAv;
+    @BindView(R.id.lbCur) TextInputEditText lbCur;
+    @BindView(R.id.lbMA) TextInputEditText lbMA;
 
-    private OnFragmentInteractionListener mListener;
 
-    public FragLeft() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragLeft.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragLeft newInstance(String param1, String param2) {
-        FragLeft fragment = new FragLeft();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_frag_left, container, false);
+        ButterKnife.bind(this,view);
+
+        LineGraphSeries<DataPoint> dadosLB = new LineGraphSeries<>();
+
+        String jsonString = stringFromAsset(view.getContext(), "texto.json");
+        try{
+
+            JSONArray dados = new JSONArray(jsonString);
+            String res = "";
+
+            String result = "";
+            for (int i = 0; i < dados.length(); i++) {
+                JSONObject city = dados.getJSONObject(i);
+                //new Gson().fromJson(city.toString(), City.class);
+                result += "RB : " + city.getInt("RB") + "\n" +
+                        "LB : " + city.getInt("LB") + "\n" +
+                        "SA:" + city.getInt("SA")  + "\n";
+
+                dadosLB.appendData(new DataPoint(i, city.getInt("LB")) , false , 10 );
+
+
+                lbMin.setText("0");
+                lbMax.setText("500");
+                lbAv.setText("250");
+                lbCur.setText("0");
+                lbMA.setText("120");
+            }
+
+
+        }catch (Exception ex){
+            Log.d("erro:", ex.getLocalizedMessage());
         }
+
+
+        graphLB.addSeries(dadosLB);
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag_left, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public String stringFromAsset(Context context, String assertFileName){
+        AssetManager am = context.getAssets();
+        try {
+            InputStream is = am.open(assertFileName);
+            String result = stringFromStream(is);
+            is.close();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    private String stringFromStream(InputStream is) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+
+            while ((line = reader.readLine()) != null)
+                sb.append(line).append("\n");
+            reader.close();
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
