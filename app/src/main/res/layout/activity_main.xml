@@ -6,23 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <!--                  Grafico Left Brake           -->
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Left Brake"
-            android:textSize="33sp"/>
+            android:text="Ligar"
+            android:id="@+id/ligar" />
+
+
+        <!--                  Grafico Left Brake           -->
+        <TextView style="@style/h1"
+            android:text="Left Brake" />
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
-            android:layout_width="match_parent"
-            android:layout_height="200dip" />
+            style="@style/grafico" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,11 +44,8 @@
                 android:layout_weight="1">
 
                 <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/texto"
                     android:hint="Minimun"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
                     android:id="@+id/rbMin"
                     />
             </android.support.design.widget.TextInputLayout>
@@ -56,8 +57,7 @@
 
 
                 <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/texto"
                     android:hint="Average"
                     android:id="@+id/rbAv"
                     />
@@ -80,11 +80,8 @@
                 android:layout_weight="1">
 
                 <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/texto"
                     android:hint="Maximum"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
                     android:id="@+id/rbMax"
                     />
             </android.support.design.widget.TextInputLayout>
@@ -96,8 +93,7 @@
 
 
                 <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/texto"
                     android:hint="Current"
                     android:id="@+id/rbCur"
                     />
@@ -114,8 +110,7 @@
 
 
             <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/texto"
                 android:hint="Moving Average"
                 android:id="@+id/rbMA"
                 />
@@ -123,17 +118,12 @@
 
         <!--             Grafico Left Brake           -->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Right Brake"
-            android:textSize="33sp"
-            android:layout_marginTop="20dp"/>
+        <TextView style="@style/h1"
+            android:text="Right Brake"/>
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph1"
-            android:layout_width="match_parent"
-            android:layout_height="200dip" />
+            style="@style/grafico" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,11 +141,8 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Minimun"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
                         android:id="@+id/lbMin"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -167,8 +154,7 @@
 
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Average"
                         android:id="@+id/lbAv"
                         />
@@ -191,11 +177,8 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Maximum"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
                         android:id="@+id/lbMax"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -207,8 +190,7 @@
 
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Current"
                         android:id="@+id/lbCur"
                         />
@@ -225,24 +207,18 @@
 
 
             <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/texto"
                 android:hint="Moving Average"
                 android:id="@+id/lbMA"
                 />
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Steering Angle"
-            android:textSize="33sp"
-            android:layout_marginTop="20dp"/>
+        <TextView style="@style/h1"
+            android:text="Steering Angle"/>
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph2"
-            android:layout_width="match_parent"
-            android:layout_height="200dip" />
+            style="@style/grafico" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -260,11 +236,8 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Minimun"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
                         android:id="@+id/saMin"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -276,8 +249,7 @@
 
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Average"
                         android:id="@+id/saAv"
                         />
@@ -300,11 +272,8 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Maximum"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
                         android:id="@+id/saMax"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -316,8 +285,7 @@
 
 
                     <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texto"
                         android:hint="Current"
                         android:id="@+id/saCur"
                         />
@@ -334,8 +302,7 @@
 
 
             <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/texto"
                 android:hint="Moving Average"
                 android:id="@+id/saMA"
                 />

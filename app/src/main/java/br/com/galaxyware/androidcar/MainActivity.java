@@ -1,12 +1,19 @@
 package br.com.galaxyware.androidcar;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
+import android.os.Handler;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.bluetooth.BluetoothDevice;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -19,6 +26,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
 //-------------Graficos e dados de LEFT BRAKE
         GraphView graphLB =  findViewById(R.id.graph);
         LineGraphSeries<DataPoint> dadosLB = new LineGraphSeries<>();
+
 
         TextInputEditText lbMin = (TextInputEditText) findViewById(R.id.lbMin);
         TextInputEditText lbMax = (TextInputEditText) findViewById(R.id.lbMax);
@@ -78,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         graphLB.addSeries(dadosLB);
         graph1.addSeries(series1);
         graph2.addSeries(series2);
+
+
     }
 
     public String stringFromAsset(Context context, String assertFileName){
@@ -108,4 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
+
+
 }
