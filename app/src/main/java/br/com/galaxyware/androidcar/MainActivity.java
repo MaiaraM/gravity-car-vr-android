@@ -2,10 +2,20 @@ package br.com.galaxyware.androidcar;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -19,99 +29,68 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindArray;
+import butterknife.BindView;
+
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+
+    private AdapterTab mSectionAdapter;
+    private TextView textPower;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tab);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        mSectionAdapter = new AdapterTab(getSupportFragmentManager());
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(viewPager);
+
+        setSupportActionBar(toolbar);
 
 
-//-------------Graficos e dados de LEFT BRAKE
-        GraphView graphLB =  findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> dadosLB = new LineGraphSeries<>();
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.menu_switch);
+        actionBar.setTitle("GravityCar Telemetry");
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
 
-        TextInputEditText lbMin = (TextInputEditText) findViewById(R.id.lbMin);
-        TextInputEditText lbMax = (TextInputEditText) findViewById(R.id.lbMax);
-        TextInputEditText lbAv = (TextInputEditText) findViewById(R.id.lbAv);
-        TextInputEditText lbCur = (TextInputEditText) findViewById(R.id.lbCur);
-        TextInputEditText lbMA = (TextInputEditText) findViewById(R.id.lbMA);
-
-
-        GraphView graph1 =  findViewById(R.id.graph1);
-        GraphView graph2 = findViewById(R.id.graph2);
-
-        LineGraphSeries<DataPoint> series1 = new LineGraphSeries<>();
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>() ;
-
-        String jsonString = stringFromAsset(this, "texto.json");
-        try{
-
-            JSONArray dados = new JSONArray(jsonString);
-            String res = "";
-
-            String result = "";
-            for (int i = 0; i < dados.length(); i++) {
-                JSONObject city = dados.getJSONObject(i);
-                //new Gson().fromJson(city.toString(), City.class);
-                result += "RB : " + city.getInt("RB") + "\n" +
-                        "LB : " + city.getInt("LB") + "\n" +
-                        "SA:" + city.getInt("SA")  + "\n";
-
-                dadosLB.appendData(new DataPoint(i+1, city.getInt("RB")) , false , 10 );
-                series1.appendData(new DataPoint(i+1, city.getInt("LB")) , false , 500 );
-                series2.appendData(new DataPoint(i+1, city.getInt("SA")) , false , 500 );
-
-                lbMin.setText("0");
-                lbMax.setText("500");
-                lbAv.setText("250");
-                lbCur.setText("0");
-                lbMA.setText("120");
-            }
-
-
-        }catch (Exception ex){
-            Log.d("erro:", ex.getLocalizedMessage());
-        }
-
-
-        graphLB.addSeries(dadosLB);
-        graph1.addSeries(series1);
-        graph2.addSeries(series2);
+        Switch button = findViewById(R.id.switchAB);
+        textPower = findViewById(R.id.textPower);
+        button.setOnCheckedChangeListener(this);
 
 
     }
 
-    public String stringFromAsset(Context context, String assertFileName){
-        AssetManager am = context.getAssets();
-        try {
-            InputStream is = am.open(assertFileName);
-            String result = stringFromStream(is);
-            is.close();
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+
+    private void setupViewPager(ViewPager viewPager){
+        AdapterTab adapter = new AdapterTab(getSupportFragmentManager());
+        adapter.addFragment(new FragLeft(), "Left Brake");
+        adapter.addFragment(new FragRight(), "Right Brake");
+        adapter.addFragment(new SteeringAngle(), "Steering Angle");
+        adapter.addFragment(new Messages(), "Option");
+
+
+        viewPager.setAdapter(adapter);
     }
 
-    private String stringFromStream(InputStream is) {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            while ((line = reader.readLine()) != null)
-                sb.append(line).append("\n");
-            reader.close();
-            return sb.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(isChecked){
+            textPower.setText("Conectado");
+            Toast.makeText(MainActivity.this, "ON", Toast.LENGTH_SHORT).show();
+        }else{
+            textPower.setText("Desconectado");
+            Toast.makeText(MainActivity.this, "OFF", Toast.LENGTH_SHORT).show();
         }
-        return null;
+
+
     }
-
-
-
 }

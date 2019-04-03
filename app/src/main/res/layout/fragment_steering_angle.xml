@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SteeringAngle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/h1"
+            android:text="Steering Angle" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph2"
+            style="@style/grafico" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/saMin"
+                        style="@style/texto"
+                        android:hint="Minimun" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/saAv"
+                        style="@style/texto"
+                        android:hint="Average" />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/saMax"
+                        style="@style/texto"
+                        android:hint="Maximum" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/saCur"
+                        style="@style/texto"
+                        android:hint="Current" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/saMA"
+                style="@style/texto"
+                android:hint="Moving Average" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</FrameLayout>
