@@ -84,10 +84,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         if(isChecked){
-            textPower.setText("Conectado");
+            textPower.setText("Connect");
             Toast.makeText(MainActivity.this, "ON", Toast.LENGTH_SHORT).show();
         }else{
-            textPower.setText("Desconectado");
+            textPower.setText("Desconnect");
             Toast.makeText(MainActivity.this, "OFF", Toast.LENGTH_SHORT).show();
         }
 

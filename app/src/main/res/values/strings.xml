@@ -6,7 +6,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="textExemplo">Json exemplo {{"RB": 250,"LB": 280,"SA": 300}, \n{"RB": 250,"LB": 280,"SA": 300}, \n
+    <string name="textExemplo">{{"RB": 250,"LB": 280,"SA": 300}, \n{"RB": 250,"LB": 280,"SA": 300}, \n
         {"RB": 250,"LB": 280,"SA": 300}, \n{"RB": 250,"LB": 280,"SA": 300}, \n
        {"RB": 250,"LB": 280,"SA": 300}, \n{"RB": 250,"LB": 280,"SA": 300}, \n
         {"RB": 250,"LB": 280,"SA": 300}, \n{"RB": 250,"LB": 280,"SA": 300}, \n
