@@ -85,12 +85,12 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="262262" />
+                                      <entry key="backgroundColor" value="fff8f3" />
                                       <entry key="backgroundLayerName" value="a" />
-                                      <entry key="foregroundImage" value="C:\Users\Dev2\Downloads\logotipo1.PNG" />
+                                      <entry key="foregroundImage" value="C:\Users\Dev2\Downloads\icon_logo.png" />
                                       <entry key="foregroundLayerName" value="ic_logo1" />
                                       <entry key="legacyIconShape" value="NONE" />
-                                      <entry key="outputName" value="ic_logo" />
+                                      <entry key="outputName" value="icon_logo" />
                                       <entry key="webIconShape" value="NONE" />
                                     </map>
                                   </option>

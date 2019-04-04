@@ -3,74 +3,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Messages">
+    tools:context=".Messages"
+    android:paddingStart="16dp"
+    android:layout_marginTop="10dp"
+    android:paddingEnd="5dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Port"/>
-
-
-        <Spinner
-            android:id="@+id/spinner_port"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Baud rate"/>
-
-        <Spinner
-            android:id="@+id/spinner_baud"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Receive Message (Raw)"/>
-
-        <ScrollView
-            android:id="@+id/ScrollView01"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dip"
-            android:scrollbars="vertical"
-            android:layout_margin="10dp"
-            android:background="@drawable/border"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Port" />
+
+
+                <Spinner
+                    android:id="@+id/spinner_port"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Baud rate" />
+
+                <Spinner
+                    android:id="@+id/spinner_baud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Receive Message (Raw)" />
+
+            <ScrollView
+                android:id="@+id/ScrollView01"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/textExemplo"/>
+                android:layout_height="150dip"
+                android:layout_margin="10dp"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:scrollbars="vertical">
 
-        </ScrollView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/textExemplo" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sende Message (Raw)"/>
-
-        <ScrollView
-            android:id="@+id/ScrollView02"
-            android:layout_width="match_parent"
-            android:layout_height="150dip"
-            android:scrollbars="vertical"
-            android:layout_margin="10dp"
-            android:background="@drawable/border"
-            android:padding="10dp">
+            </ScrollView>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/textExemplo"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send Message (Raw)" />
 
-        </ScrollView>
-    </LinearLayout>
+            <ScrollView
+                android:id="@+id/ScrollView02"
+                android:layout_width="match_parent"
+                android:layout_height="150dip"
+                android:layout_margin="10dp"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/textExemplo" />
+
+            </ScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left vibration motors" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Right vibration motors" />
+
+
+            <SeekBar
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fan Speed" />
+
+            <SeekBar
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+
+    </ScrollView>
 </FrameLayout>
