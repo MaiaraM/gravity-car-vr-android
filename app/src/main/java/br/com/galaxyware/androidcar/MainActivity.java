@@ -1,6 +1,9 @@
 package br.com.galaxyware.androidcar;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
@@ -28,14 +31,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindArray;
 import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
+    private static String TAG = "MainActivity";
+
     private AdapterTab mSectionAdapter;
     private TextView textPower;
+    private final static int REQUEST_ENABLE_BT = 1;
+    private static Map<String,String > mDevices;
 
 
     @Override
@@ -43,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        mDevices = new HashMap<>();
 
         mSectionAdapter = new AdapterTab(getSupportFragmentManager());
 
@@ -85,12 +97,35 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         if(isChecked){
             textPower.setText("Connect");
-            Toast.makeText(MainActivity.this, "ON", Toast.LENGTH_SHORT).show();
+            connectArduino();
         }else{
             textPower.setText("Desconnect");
             Toast.makeText(MainActivity.this, "OFF", Toast.LENGTH_SHORT).show();
         }
 
 
+    }
+
+    private void connectArduino() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        String a = "";
+        if (mBluetoothAdapter == null) {
+            Log.d(TAG,"Device don't have support for bluetooth");
+        }else{
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            }
+            Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+            if (pairedDevices.size() > 0) {
+                // Loop through paired devices
+                for (BluetoothDevice device : pairedDevices) {
+                    // Add the name and address to an array adapter to show in a ListView
+                    mDevices.put(device.getName(), device.getAddress());
+                    a += device.getName() + "/";
+                }
+                Toast.makeText(MainActivity.this, a, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
