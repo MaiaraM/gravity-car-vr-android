@@ -2,42 +2,27 @@ package br.com.galaxyware.androidcar;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.support.design.widget.BottomNavigationView;
+import android.os.Bundle;
+import android.os.ParcelUuid;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import butterknife.BindArray;
-import butterknife.BindView;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -46,7 +31,16 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     private AdapterTab mSectionAdapter;
     private TextView textPower;
     private final static int REQUEST_ENABLE_BT = 1;
-    private static Map<String,String > mDevices;
+    private static Map<String, String> mDevices;
+    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private final UUID MY_UUID = UUID.randomUUID();
+    private BluetoothSocket mmSocket = null;
+    private BluetoothDevice mmDevice = null;
+    public static final int STATE_CONNECTING = 1; // now initiating an outgoing connection
+    public static final int STATE_CONNECTED = 2; // now connected to a remote device
+
+    private InputStream mmInStream = null;
+    private OutputStream mmOutStream = null;
 
 
     @Override
@@ -81,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
 
-    private void setupViewPager(ViewPager viewPager){
+    private void setupViewPager(ViewPager viewPager) {
         AdapterTab adapter = new AdapterTab(getSupportFragmentManager());
         adapter.addFragment(new FragLeft(), "Left Brake");
         adapter.addFragment(new FragRight(), "Right Brake");
@@ -95,10 +89,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        if(isChecked){
+        if (isChecked) {
             textPower.setText("Connect");
             connectArduino();
-        }else{
+        } else {
             textPower.setText("Desconnect");
             Toast.makeText(MainActivity.this, "OFF", Toast.LENGTH_SHORT).show();
         }
@@ -107,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     private void connectArduino() {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         String a = "";
         if (mBluetoothAdapter == null) {
-            Log.d(TAG,"Device don't have support for bluetooth");
-        }else{
+            Log.d(TAG, "Device don't have support for bluetooth");
+        } else {
             if (!mBluetoothAdapter.isEnabled()) {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
@@ -123,9 +117,58 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     // Add the name and address to an array adapter to show in a ListView
                     mDevices.put(device.getName(), device.getAddress());
                     a += device.getName() + "/";
+                    conectar(device);
                 }
                 Toast.makeText(MainActivity.this, a, Toast.LENGTH_LONG).show();
             }
         }
     }
+
+    private void conectar(BluetoothDevice device){
+        String address = device.getAddress();
+// Obtem o BluetoothDevice
+        mmDevice = mBluetoothAdapter.getRemoteDevice(address);
+        try {
+// Cria o socket utilizando o UUID
+            mmSocket = mmDevice.createRfcommSocketToServiceRecord(MY_UUID);
+// Conecta ao dispositivo escolhido
+            mmSocket.connect();
+// Obtem os fluxos de entrada e saida que lidam com transmissões através do socket
+            mmInStream = mmSocket.getInputStream();
+            mmOutStream = mmSocket.getOutputStream();
+
+// Saida:
+// Envio de uma mensagem pelo .write
+//            String enviada = "Teste Rone";
+//            byte[] send = enviada.getBytes();
+//            mmOutStream.write(send);
+
+// Entrada:
+// bytes returnados da read()
+            int bytes;
+// buffer de memória para o fluxo
+            byte[] read = new byte[1024];
+
+// Continuar ouvindo o InputStream enquanto conectado
+// O loop principal é dedicado a leitura do InputStream
+            while (true) {
+                try {
+// Read from the InputStream
+                    bytes = mmInStream.read(read);
+
+                    String readMessage = new String(read);
+                    Toast.makeText(this, readMessage, Toast.LENGTH_LONG).show();
+                    Log.i("Mensagem:" ,readMessage );
+
+                } catch (IOException e) {
+                    Toast.makeText(this, "Ocorreu um erro no recebimento da mensagem!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        }
+        catch(IOException e){
+            Toast.makeText(this, "Ocorreu um erro!", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
