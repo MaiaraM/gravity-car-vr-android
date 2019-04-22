@@ -115,11 +115,16 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 // Loop through paired devices
                 for (BluetoothDevice device : pairedDevices) {
                     // Add the name and address to an array adapter to show in a ListView
-                    mDevices.put(device.getName(), device.getAddress());
-                    a += device.getName() + "/";
-                    conectar(device);
+//                    mDevices.put(device.getName(), device.getAddress());
+
+                    if(device.getName().contains("DESKTOP")){
+                        a += device.getName();
+                        conectar(device);
+                    }
+
+//
                 }
-                Toast.makeText(MainActivity.this, a, Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, a, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -157,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     bytes = mmInStream.read(read);
 
                     String readMessage = new String(read);
-                    Toast.makeText(this, readMessage, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, readMessage + "lendo", Toast.LENGTH_LONG).show();
                     Log.i("Mensagem:" ,readMessage );
 
                 } catch (IOException e) {
